@@ -1,0 +1,48 @@
+<!ELEMENT html (head, body)>
+<!ELEMENT head (title, meta*, link*, script*)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT meta EMPTY>
+<!ELEMENT link EMPTY>
+<!ELEMENT script (#PCDATA)>
+
+<!ELEMENT body (header, main, aside?, footer)>
+<!ELEMENT header (h1, p?)>
+<!ELEMENT h1 (#PCDATA)>
+<!ELEMENT p (#PCDATA)>
+
+<!ELEMENT main (section+)>
+<!ELEMENT section (h2?, p*, form?)>
+<!ELEMENT h2 (#PCDATA)>
+
+<!ELEMENT form (fieldset+, div*, p?, button+)>
+<!ELEMENT fieldset (legend, div+)>
+<!ELEMENT legend (#PCDATA)>
+<!ELEMENT div (#PCDATA | label | input | textarea | button | p | span | select | option)*>
+
+<!ELEMENT label (#PCDATA | input | span)*>
+<!ELEMENT input EMPTY>
+<!ATTLIST input
+  type CDATA #IMPLIED
+  id ID #IMPLIED
+  name CDATA #IMPLIED
+  value CDATA #IMPLIED
+  maxlength CDATA #IMPLIED
+  pattern CDATA #IMPLIED
+  placeholder CDATA #IMPLIED
+  required CDATA #IMPLIED
+  aria-describedby CDATA #IMPLIED
+  inputmode CDATA #IMPLIED
+  checked CDATA #IMPLIED
+>
+
+<!ELEMENT textarea (#PCDATA)>
+<!ATTLIST textarea
+  id ID #IMPLIED
+  name CDATA #IMPLIED
+  rows CDATA #IMPLIED
+  cols CDATA #IMPLIED
+  required CDATA #IMPLIED
+  placeholder CDATA #IMPLIED
+>
+
+<!ELEMENT footer (p?)>

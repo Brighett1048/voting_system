@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "form.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Siyavota — Voter &amp; Ballot</title>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style type="text/css">
+      /*<![CDATA[*/
+      :root {
+        --blue-500: #0b66d0;
+        --blue-600: #0954b4;
+        --bg: #f6fbff;
+        --card-bg: #ffffff;
+        --muted: #6b7280;
+        --radius: 12px;
+        --base-font-size: 16px;
+      }
+      html,body{height:100%;margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;font-size:var(--base-font-size);background:linear-gradient(180deg, rgba(11,102,208,0.06), rgba(11,102,208,0.02)),var(--bg);color:#0f1724;}
+      body{padding:18px;display:flex;gap:18px;min-height:100vh;align-items:flex-start;flex-direction:row}
+      .container{flex:1 1 auto;display:flex;justify-content:center}
+      .card{background:var(--card-bg);border-radius:var(--radius);padding:20px;box-shadow:0 8px 30px rgba(8,30,70,0.06);width:100%;max-width:880px;border:1px solid rgba(11,102,208,0.06)}
+      .card::before{content:"";display:block;height:6px;width:110px;background:linear-gradient(90deg,#0b66d0,#0b66d0 60%);border-radius:3px;margin-bottom:12px}
+      h1,h2{margin:0;color:var(--blue-600)}
+      .lead{color:var(--muted);margin:8px 0 16px}
+      .form-row{display:flex;flex-direction:column;margin-bottom:12px}
+      label{font-weight:600;margin-bottom:6px}
+      input[type="text"], input[type="tel"], input[type="email"], textarea { padding:10px;border-radius:8px;border:1px solid rgba(10,45,85,0.12);font-size:1rem;outline:none }
+      input:focus, textarea:focus{box-shadow:0 6px 18px rgba(11,102,208,0.08);border-color:var(--blue-500)}
+      .candidate{display:flex;flex-direction:column;gap:8px}
+      .candidate-label{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;border:1px solid rgba(10,45,85,0.04);cursor:pointer}
+      .candidate-label:hover{background:rgba(11,102,208,0.03)}
+      input[type="radio"]{width:18px;height:18px;accent-color:var(--blue-600)}
+      .form-actions{display:flex;gap:10px;margin-top:12px}
+      button{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+      .primary{background:linear-gradient(180deg,var(--blue-500),var(--blue-600));color:#fff}
+      .secondary{background:transparent;color:var(--blue-600);border:1px solid rgba(11,102,208,0.12)}
+      .help{color:var(--muted);font-size:0.92rem;margin-top:6px}
+      .error{color:#b91c1c;font-size:0.92rem;min-height:1.2em;margin-top:6px}
+      .confirmation{margin-top:12px;font-weight:600;color:var(--blue-600);min-height:1.2em}
+      @media (max-width:880px){body{padding:12px;flex-direction:column}}
+      /*]]>*/
+    </style>
+  </head>
+  <body>
+    <header role="banner" class="site-header" style="margin-right:12px;">
+      <h1 id="title">Siyavota</h1>
+      <p class="tagline" style="color:var(--muted)">Secure — Inclusive — Professional</p>
+    </header>
+
+    <main role="main" class="container">
+      <section class="card" aria-labelledby="form-title">
+        <h2 id="form-title">Voter details &amp; ballot</h2>
+        <p class="lead">Please complete your details, then select one candidate and confirm. Fields marked with * are required.</p>
+
+        <form id="voter-ballot-form" action="/cast" method="post" novalidate="novalidate" role="form" aria-labelledby="form-title">
+          <fieldset>
+            <legend>Personal &amp; contact details</legend>
+
+            <div class="form-row">
+              <label for="id_number">ID number <span aria-hidden="true" class="required">*</span></label>
+              <input type="text" id="id_number" name="id_number"
+                     maxlength="13" pattern="\d{13}"
+                     placeholder="1234567890123"
+                     aria-describedby="id-help id-error"
+                     required="required" inputmode="numeric" />
+              <p id="id-help" class="help">Enter 13 digits (no spaces). We validate checksum automatically.</p>
+              <p id="id-error" class="error" aria-live="polite"></p>
+            </div>
+
+            <div class="form-row">
+              <label for="full_name">Full names <span aria-hidden="true" class="required">*</span></label>
+              <input type="text" id="full_name" name="full_name"
+                     placeholder="e.g., Thandiwe M. Ndlovu"
+                     aria-describedby="name-error"
+                     required="required" />
+              <p id="name-error" class="error" aria-live="polite"></p>
+            </div>
+
+            <div class="form-row">
+              <label for="address">Address <span aria-hidden="true" class="required">*</span></label>
+              <textarea id="address" name="address" rows="3" cols="40"
+                        placeholder="Street, Suburb, City, Postal Code"
+                        aria-describedby="address-error"
+                        required="required"></textarea>
+              <p id="address-error" class="error" aria-live="polite"></p>
+            </div>
+
+            <div class="form-row">
+              <label for="phone">Contact phone <span aria-hidden="true" class="required">*</span></label>
+              <input type="tel" id="phone" name="phone"
+                     placeholder="+27 82 123 4567"
+                     aria-describedby="phone-error"
+                     pattern="\+?\d{9,15}"
+                     inputmode="tel"
+                     required="required" />
+              <p id="phone-error" class="error" aria-live="polite"></p>
+            </div>
+
+            <div class="form-row">
+              <label for="email">Email (optional)</label>
+              <input type="email" id="email" name="email"
+                     placeholder="name@example.com"
+                     aria-describedby="email-error" />
+              <p id="email-error" class="error" aria-live="polite"></p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Candidates</legend>
+
+            <div class="candidate" role="radiogroup" aria-labelledby="form-title">
+              <label class="candidate-label" for="cand-1">
+                <input type="radio" name="candidate" value="cand-1" id="cand-1" />
+                <span class="candidate-name">Candidate A — African National Congress (ANC) </span>
+              </label>
+
+              <label class="candidate-label" for="cand-2">
+                <input type="radio" name="candidate" value="cand-2" id="cand-2" />
+                <span class="candidate-name">Candidate B — Democratic Alliance (DA)</span>
+              </label>
+
+              <label class="candidate-label" for="cand-3">
+                <input type="radio" name="candidate" value="cand-3" id="cand-3" />
+                <span class="candidate-name">Candidate C — Economic Freedom Fighters (EFF)</span>
+              </label>
+
+              <label class="candidate-label" for="cand-4">
+                <input type="radio" name="candidate" value="cand-4" id="cand-4" />
+                <span class="candidate-name">Candidate D — Umkho we sizwe</span>
+              </label>
+            </div>
+            <p id="candidate-error" class="error" aria-live="polite"></p>
+          </fieldset>
+
+          <div class="form-actions" role="group" aria-label="Form actions">
+            <button type="submit" id="confirm-vote" class="primary">Confirm Vote</button>
+            <button type="reset" id="reset-btn" class="secondary">Reset</button>
+          </div>
+
+          <div id="confirmation" class="confirmation" aria-live="polite" role="status" tabindex="-1"></div>
+
+          <noscript>
+            <p class="noscript-note">JavaScript is disabled. The form will submit normally and server-side validation will apply.</p>
+          </noscript>
+        </form>
+      </section>
+    </main>
+
+    <aside role="complementary" id="status-panel" aria-live="polite" style="max-width:260px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.6)">
+      <h3>Station status</h3>
+      <p id="queue-length">Queue: unknown</p>
+      <p id="sync-status">Connectivity: unknown</p>
+    </aside>
+
+    <footer role="contentinfo" class="site-footer" style="margin-left:12px;">
+      <p>IEC — Siyavota demo ballot</p>
+    </footer>
+
+    <script type="application/javascript">
+      /*<![CDATA[*/
+      (function () {
+        'use strict';
+
+        function digitsOnly(str) { return (str || '').replace(/\D/g, ''); }
+
+        function luhnCheck(id13) {
+          var s = digitsOnly(id13);
+          if (!/^\d{13}$/.test(s)) { return false; }
+          var digits = s.split('').map(function (d) { return parseInt(d, 10); });
+          var checkDigit = digits.pop();
+          var sum = 0;
+          for (var i = digits.length - 1, pos = 0; i >= 0; i--, pos++) {
+            var d = digits[i];
+            if (pos % 2 === 0) {
+              var doubled = d * 2;
+              if (doubled > 9) { doubled = Math.floor(doubled / 10) + (doubled % 10); }
+              sum += doubled;
+            } else {
+              sum += d;
+            }
+          }
+          var calcCheck = (10 - (sum % 10)) % 10;
+          return calcCheck === checkDigit;
+        }
+
+        var form = document.getElementById('voter-ballot-form');
+        if (!form) return;
+
+        var idInput = document.getElementById('id_number');
+        var nameInput = document.getElementById('full_name');
+        var addressInput = document.getElementById('address');
+        var phoneInput = document.getElementById('phone');
+        var emailInput = document.getElementById('email');
+        var confirmationEl = document.getElementById('confirmation');
+        var resetBtn = document.getElementById('reset-btn');
+        var candidateError = document.getElementById('candidate-error');
+
+        var idError = document.getElementById('id-error');
+        var nameError = document.getElementById('name-error');
+        var addressError = document.getElementById('address-error');
+        var phoneError = document.getElementById('phone-error');
+        var emailError = document.getElementById('email-error');
+
+        if (idInput) {
+          idInput.addEventListener('input', function () {
+            var v = digitsOnly(idInput.value);
+            if (v.length > 13) v = v.slice(0,13);
+            idInput.value = v;
+            if (v.length === 13) {
+              if (luhnCheck(v)) { if (idError) idError.textContent = ''; idInput.setAttribute('aria-invalid','false'); }
+              else { if (idError) idError.textContent = 'ID appears invalid (checksum failed).'; idInput.setAttribute('aria-invalid','true'); }
+            } else {
+              if (idError) idError.textContent = v.length === 0 ? '' : 'ID should be 13 digits.';
+              idInput.setAttribute('aria-invalid','true');
+            }
+          }, false);
+        }
+
+        function validateName() {
+          var v = (nameInput && nameInput.value || '').trim();
+          if (v.length < 2) { if (nameError) nameError.textContent = 'Please enter your full names.'; if (nameInput) nameInput.setAttribute('aria-invalid','true'); return false; }
+          if (nameError) nameError.textContent = ''; if (nameInput) nameInput.setAttribute('aria-invalid','false'); return true;
+        }
+        function validateAddress() {
+          var v = (addressInput && addressInput.value || '').trim();
+          if (v.length < 5) { if (addressError) addressError.textContent = 'Please enter your address.'; if (addressInput) addressInput.setAttribute('aria-invalid','true'); return false; }
+          if (addressError) addressError.textContent = ''; if (addressInput) addressInput.setAttribute('aria-invalid','false'); return true;
+        }
+        function validatePhone() {
+          var v = (phoneInput && phoneInput.value || '').trim();
+          var digits = digitsOnly(v);
+          if (digits.length < 9 || digits.length > 15) { if (phoneError) phoneError.textContent = 'Please enter a valid phone number (9–15 digits).'; if (phoneInput) phoneInput.setAttribute('aria-invalid','true'); return false; }
+          if (phoneError) phoneError.textContent = ''; if (phoneInput) phoneInput.setAttribute('aria-invalid','false'); return true;
+        }
+        function validateEmail() {
+          var v = (emailInput && emailInput.value || '').trim();
+          if (v === '') { if (emailError) emailError.textContent = ''; if (emailInput) emailInput.setAttribute('aria-invalid','false'); return true; }
+          var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!re.test(v)) { if (emailError) emailError.textContent = 'Please enter a valid email address or leave blank.'; if (emailInput) emailInput.setAttribute('aria-invalid','true'); return false; }
+          if (emailError) emailError.textContent = ''; if (emailInput) emailInput.setAttribute('aria-invalid','false'); return true;
+        }
+
+        function getSelectedCandidate() {
+          var radios = form.querySelectorAll('input[name="candidate"]');
+          for (var i = 0; i < radios.length; i++) if (radios[i].checked) return radios[i].value;
+          return null;
+        }
+
+        function showConfirmation() {
+          var message = 'thanks for voting , your vote was succesful, you can exit the site';
+          if (confirmationEl) {
+            confirmationEl.style.color = ''; confirmationEl.textContent = message;
+            try { confirmationEl.focus(); } catch (e) {}
+          }
+          try { window.alert(message); } catch (e) {}
+          if (window.speechSynthesis) {
+            try { window.speechSynthesis.speak(new SpeechSynthesisUtterance(message)); } catch (e) {}
+          }
+        }
+
+        form.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+
+          if (candidateError) candidateError.textContent = '';
+
+          var idVal = idInput ? digitsOnly(idInput.value) : '';
+          var ok = true;
+
+          if (!/^\d{13}$/.test(idVal) || !luhnCheck(idVal)) { if (idError) idError.textContent = 'Please provide a valid 13-digit ID number.'; if (idInput) idInput.focus(); ok = false; } else if (idError) idError.textContent = '';
+
+          if (!validateName()) ok = false;
+          if (!validateAddress()) ok = false;
+          if (!validatePhone()) ok = false;
+          if (!validateEmail()) ok = false;
+
+          var candidate = getSelectedCandidate();
+          if (!candidate) { if (candidateError) candidateError.textContent = 'Please select one candidate.'; ok = false; }
+          else if (candidateError) candidateError.textContent = '';
+
+          if (!ok) return;
+
+          var buttons = form.querySelectorAll('button, input[type="submit"]');
+          buttons.forEach && buttons.forEach(function (b) { b.disabled = true; });
+
+          var payload = {
+            id_number: idVal,
+            full_name: nameInput ? nameInput.value.trim() : '',
+            address: addressInput ? addressInput.value.trim() : '',
+            phone: phoneInput ? phoneInput.value.trim() : '',
+            email: emailInput ? emailInput.value.trim() : '',
+            candidate: candidate
+          };
+
+          var protocol = (location && location.protocol) ? location.protocol : '';
+          if (protocol.indexOf('http') === 0) {
+            var submitUrl = form.getAttribute('action') || location.href;
+            fetch(submitUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(payload),
+              credentials: 'same-origin'
+            }).then(function (resp) {
+              if (!resp.ok) throw new Error('Server returned ' + resp.status);
+              showConfirmation();
+            }).catch(function (err) {
+              buttons.forEach && buttons.forEach(function (b) { b.disabled = false; });
+              if (confirmationEl) { confirmationEl.style.color = '#b91c1c'; confirmationEl.textContent = 'Submission failed. Please try again or ask staff for assistance.'; }
+              else try { window.alert('Submission failed. Please try again.'); } catch (e) {}
+              console.error('Submission error:', err);
+            });
+          } else {
+            
+            showConfirmation();
+          }
+        }, false);
+
+        if (resetBtn) {
+          resetBtn.addEventListener('click', function () {
+            [idError, nameError, addressError, phoneError, emailError, candidateError].forEach(function (el) { if (el) el.textContent = ''; });
+            if (confirmationEl) confirmationEl.textContent = '';
+            var buttons = form.querySelectorAll('button, input[type="submit"]');
+            buttons.forEach && buttons.forEach(function (b) { b.disabled = false; });
+          }, false);
+        }
+
+      }());
+      /*]]>*/
+    </script>
+  </body>
+</html>
